@@ -80,12 +80,21 @@ Appends the date picker popup to a specific element; eg: container: '#picker-con
 daysOfWeekDisabled
 ------------------
 
-String, Array.  Default: '', []
+String, Array.  Default: []
 
-Days of the week that should be disabled. Values are 0 (Sunday) to 6 (Saturday). Multiple values should be comma-separated. Example: disable weekends: ``'0,6'`` or ``[0,6]``.
+Days of the week that should be disabled. Values are 0 (Sunday) to 6 (Saturday). Multiple values should be comma-separated. Example: disable weekends: ``06`` or ``'0,6'`` or ``[0,6]``.
 
 .. figure:: _static/screenshots/option_daysofweekdisabled.png
     :align: center
+
+.. _daysofweekhighlighted:
+
+daysOfWeekHighlighted
+---------------------
+
+String, Array.  Default: []
+
+Days of the week that should be highlighted. Values are 0 (Sunday) to 6 (Saturday). Multiple values should be comma-separated. Example: highlight weekends: ``06`` or ``'0,6'`` or ``[0,6]``.
 
 .. _datesdisabled:
 
@@ -276,3 +285,31 @@ Day of the week start. 0 (Sunday) to 6 (Saturday)
 
 .. figure:: _static/screenshots/option_weekstart.png
     :align: center
+
+showOnFocus
+-----------
+
+Boolean.  Default: true
+
+If false, the datepicker will be prevented from showing when the input field associated with it receives focus.
+
+disableTouchKeyboard
+--------------------
+
+Boolean.  Default: false
+
+If true, no keyboard will show on mobile devices
+
+enableOnReadonly
+----------------
+
+Boolean. Default: true
+
+If false the datepicker will not show on a readonly datepicker field.
+
+immediateUpdates
+---------------------
+
+Boolean. Default: false
+
+If true, selecting a year or month in the datepicker will update the input value immediately. Otherwise, only selecting a day of the month will update the input value immediately.

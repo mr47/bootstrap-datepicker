@@ -1,15 +1,4 @@
-/*!
- * Datepicker for Bootstrap
- *
- * Copyright 2012 Stefan Petre
- * Improvements by Andrew Rowls
- * Licensed under the Apache License v2.0
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- */
-
 .datepicker {
-	padding: 4px;
 	border-radius: 4px;
 	&-inline {
 		width: 220px;
@@ -24,6 +13,7 @@
 	&-dropdown {
 		top: 0;
 		left: 0;
+		padding: 4px;
 		&:before {
 			content: '';
 			display: inline-block;
@@ -60,19 +50,15 @@
 			border-top:    6px solid #fff;
 		}
 	}
-	>div {
+	> div {
 		display: none;
 	}
-	&.days div.datepicker-days {
+	&.days .datepicker-days,
+	&.months .datepicker-months,
+	&.years .datepicker-years {
 		display: block;
 	}
-	&.months div.datepicker-months {
-		display: block;
-	}
-	&.years div.datepicker-years {
-		display: block;
-	}
-	table{
+	table {
 		margin: 0;
 		-webkit-touch-callout: none;
 		-webkit-user-select: none;
@@ -112,6 +98,10 @@
 			background: none;
 			color: @btn-link-disabled-color;
 			cursor: default;
+		}
+		&.highlighted{
+			background: @state-info-bg;
+			border-radius: 0;
 		}
 		&.today,
 		&.today:hover,
@@ -188,14 +178,14 @@
 		}
 	}
 
-	th.datepicker-switch {
+	.datepicker-switch {
 		width: 145px;
 	}
 
 	thead tr:first-child th,
 	tfoot tr th {
 		cursor: pointer;
-		&:hover{
+		&:hover {
 			background: @gray-lighter;
 		}
 	}
@@ -207,17 +197,13 @@
 		padding: 0 2px 0 5px;
 		vertical-align: middle;
 	}
-	thead tr:first-child th.cw {
+	thead tr:first-child .cw {
 		cursor: default;
 		background-color: transparent;
 	}
 }
-.input-group {
-	&.date {
-		.input-group-addon i {
-			cursor: pointer;
-		}
-	}
+.input-group.date .input-group-addon {
+	cursor: pointer;
 }
 .input-daterange {
 	width: 100%;
