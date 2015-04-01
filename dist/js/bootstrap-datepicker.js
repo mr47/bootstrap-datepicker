@@ -4,7 +4,20 @@
  * Copyright 2012 Stefan Petre
  * Improvements by Andrew Rowls
  * Licensed under the Apache License v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
- */(function($, undefined){
+ */(function(root, factory) {
+
+  if (typeof exports !== 'undefined') {
+    // Define as CommonJS export:
+    module.exports = factory(require("jquery"));
+  } else if (typeof define === 'function' && define.amd) {
+    // Define as AMD:
+    define(["jquery"], factory);
+  } else {
+    // Just run it:
+    factory(root.jQuery);
+  }
+
+}(this, function($) {
 
 	function UTCDate(){
 		return new Date(Date.UTC.apply(Date, arguments));
@@ -115,6 +128,7 @@
 		this.setStartDate(this._o.startDate);
 		this.setEndDate(this._o.endDate);
 		this.setDaysOfWeekDisabled(this.o.daysOfWeekDisabled);
+		this.setDaysOfWeekHighlighted(this.o.daysOfWeekHighlighted);
 		this.setDatesDisabled(this.o.datesDisabled);
 
 		this.fillDow();
@@ -216,6 +230,13 @@
 			if (!$.isArray(o.daysOfWeekDisabled))
 				o.daysOfWeekDisabled = o.daysOfWeekDisabled.split(/[,\s]*/);
 			o.daysOfWeekDisabled = $.map(o.daysOfWeekDisabled, function(d){
+				return parseInt(d, 10);
+			});
+          
+  			o.daysOfWeekHighlighted = o.daysOfWeekHighlighted||[];
+			if (!$.isArray(o.daysOfWeekHighlighted))
+				o.daysOfWeekHighlighted = o.daysOfWeekHighlighted.split(/[,\s]*/);
+			o.daysOfWeekHighlighted = $.map(o.daysOfWeekHighlighted, function(d){
 				return parseInt(d, 10);
 			});
 
@@ -534,7 +555,7 @@
 			}
 
 			if (element) {
-				element.val('').change();
+				element.val('');
 			}
 
 			this.update();
@@ -567,11 +588,11 @@
 			var formatted = this.getFormattedDate();
 			if (!this.isInput){
 				if (this.component){
-					this.element.find('input').val(formatted).change();
+					this.element.find('input').val(formatted);
 				}
 			}
 			else {
-				this.element.val(formatted).change();
+				this.element.val(formatted);
 			}
 			return this;
 		},
@@ -604,6 +625,12 @@
 			this._process_options({daysOfWeekDisabled: daysOfWeekDisabled});
 			this.update();
 			this.updateNavArrows();
+			return this;
+		},
+        
+		setDaysOfWeekHighlighted: function(daysOfWeekHighlighted){
+			this._process_options({daysOfWeekHighlighted: daysOfWeekHighlighted});
+			this.update();
 			return this;
 		},
 
@@ -757,6 +784,7 @@
 				this._trigger('clearDate');
 
 			this.fill();
+			this.element.change();
 			return this;
 		},
 
@@ -822,6 +850,10 @@
 			if (date.valueOf() < this.o.startDate || date.valueOf() > this.o.endDate ||
 				$.inArray(date.getUTCDay(), this.o.daysOfWeekDisabled) !== -1){
 				cls.push('disabled');
+			}
+			if (date.valueOf() < this.o.startDate || date.valueOf() > this.o.endDate ||
+				$.inArray(date.getUTCDay(), this.o.daysOfWeekHighlighted) !== -1){
+				cls.push('highlighted');
 			}
 			if (this.o.datesDisabled.length > 0 &&
 				$.grep(this.o.datesDisabled, function(d){
@@ -1023,6 +1055,7 @@
 
 		click: function(e){
 			e.preventDefault();
+			e.stopPropagation();
 			var target = $(e.target).closest('span, td, th'),
 				year, month, day;
 			if (target.length === 1){
@@ -1528,6 +1561,7 @@
 		clearBtn: false,
 		toggleActive: false,
 		daysOfWeekDisabled: [],
+		daysOfWeekHighlighted: [],
 		datesDisabled: [],
 		endDate: Infinity,
 		forceParse: true,
@@ -1810,4 +1844,4 @@
 		datepickerPlugin.call($('[data-provide="datepicker-inline"]'));
 	});
 
-}(window.jQuery));
+}));
